@@ -2,18 +2,25 @@
 <div class="container">
     <!-- {{years}} -->
     <!-- {{ cars }} -->
+    <!-- {{ makes }} -->
     <div id="years-container" class="dropdown">
         <label for="years">Choose a Year:</label>
-            <select class="option" id="years" name="years">
+            <select class="option" id="years">
                 <option v-for="year in years" :key="year">{{ year }}</option>
             </select>
     </div>
 
     <div id="make-container" class="dropdown">
         <label for="make">Choose a Make:</label>
-            <select class="option" id="make" name="make">
-                <option value="Ford">Ford</option>
-            
+            <select class="option" id="make">
+                <option v-for="make in makes" :key="make">{{ make }}</option>
+            </select>
+    </div>
+
+    <div id="model-container" class="dropdown">
+        <label for="model">Choose a Make:</label>
+            <select class="option" id="make">
+                <option v-for="make in makes" :key="make">{{ make }}</option>
             </select>
     </div>
 </div>
@@ -26,8 +33,7 @@ export default {
 
     data() {
         return {
-            cars: null,
-            makes: null
+            cars: null
         }
     },
 
@@ -57,8 +63,14 @@ export default {
         },
 
         makes() {
-            if (this.makes === null) return {}
+            if (this.cars === null) return {}
+            const makes = {}
+            this.cars.forEach(car => {
+                makes[car.Make] = true
+            })
+            return Object.keys(makes)
         }
+        
     }
 
 }
