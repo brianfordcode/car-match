@@ -129,12 +129,20 @@ export default {
     },
     watch: {
         completedCar() {
+            if (this.completedCar === null) return
+
+            console.log(this.completedCar)
             const uriEncodedCompletedCar = encodeURIComponent('car ' + this.completedCar)
             fetch(`https://www.googleapis.com/customsearch/v1?key=AIzaSyBAbWNb9lZX61eOk0fvJugninCOKGRWPN4&cx=9a82dd91e1a2e8f98&q=${uriEncodedCompletedCar}&searchType=image`)
               .then(response => response.json())
               .then(responseJSON => {
                   this.imageSearchResults = responseJSON.items
               })
+        },
+        selectedYear() {
+            this.imageSearchResults = null
+            this.selectedMake = null
+            this.selectedModel = null
         }
     }
 
