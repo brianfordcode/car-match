@@ -4,45 +4,37 @@
     <div class="options-container">
 
     <!-- YEAR OF THE CAR -->
-    <div class="dropdown">
-        <label for="years">Choose a Year:</label>
-            <select class="option" v-model.number="selectedYear">
-                <option v-for="year in years" :key="year">{{ year }}</option>
-            </select>
+        <div class="dropdown">
+            <label for="years">Choose a Year:</label>
+                <select class="option" v-model.number="selectedYear">
+                    <option v-for="year in years" :key="year">{{ year }}</option>
+                </select>
+        </div>
+
+        <!-- MAKE OF THE CAR -->
+        <div class="dropdown">
+            <label for="make">Choose a Make:</label>
+                <select class="option" v-model="selectedMake">
+                    <option v-for="make in makes" :key="make">{{ make }}</option>
+                </select>
+        </div>
+
+        <!-- MODEL OF THE CAR -->
+        <div class="dropdown" v-if="selectedMake">
+            <label for="model">Choose a Model:</label>
+                <select class="option" v-model="selectedModel">
+                    <option v-for="model in modelsForSelectedMake" :key="model">{{ model }}</option>
+                </select>
+        </div>
     </div>
-
-    <!-- MAKE OF THE CAR -->
-    <div class="dropdown">
-        <label for="make">Choose a Make:</label>
-            <select class="option" v-model="selectedMake">
-                <option v-for="make in makes" :key="make">{{ make }}</option>
-            </select>
-    </div>
-
-    <!-- MODEL OF THE CAR -->
-    <div class="dropdown" v-if="selectedMake">
-        <label for="model">Choose a Model:</label>
-            <select class="option" v-model="selectedModel">
-                <option v-for="model in modelsForSelectedMake" :key="model">{{ model }}</option>
-            </select>
-    </div>
-
-    <!-- ALL SELECTED -->
-    
-
-    </div>
-
-    
+    <!-- IMAGE AND NAME -->
     <div class="image-and-name" v-if="imageSearchResults">
         <img :src="imageSearchResults[0].link" alt="car" class="car-image">
 
+        <!-- ALL SELECTED -->
         <p>{{ completedCar }}</p>  
     </div>
-    
-
-
 </div>
-
 </template>
 
 <script>
@@ -71,11 +63,13 @@ export default {
                 }
         );
         const data = await response.json(); // Here you have the data that you need
+
         this.cars = data.results
       })();
     },
 
     computed: {
+
         years() {
             if (this.cars === null) return {}
             const years = {}
@@ -113,10 +107,6 @@ export default {
                     models.push(car.Model)
                 }
             })
-
-            console.log(models)
-            
-
             return models
         },
 
@@ -127,6 +117,7 @@ export default {
             return `${ this.selectedYear } ${ this.selectedMake} ${ this.selectedModel }`
         }
     },
+
     watch: {
         completedCar() {
             if (this.completedCar === null) return
@@ -158,7 +149,6 @@ export default {
     flex-direction: row;
     justify-content: space-between;
 }
-
 .options-container {
     padding-left: 15%;
     padding-right: 75px;
@@ -185,6 +175,5 @@ export default {
     width: 100%;
     padding-right: 15%;
 }
-
 
 </style>
